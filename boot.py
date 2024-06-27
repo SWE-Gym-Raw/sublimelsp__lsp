@@ -263,6 +263,12 @@ class Listener(sublime_plugin.EventListener):
                     tup[1](None)
                     break
 
+    def on_window_command(self, window: sublime.Window, command_name: str, args: dict) -> tuple[str, dict] | None:
+        if command_name == "rename_path":
+            return ("lsp_rename_file", args)
+        elif command_name == "rename_file":  # BUG, ST never emits the command
+             return ("lsp_rename_file", args)
+
     def on_post_window_command(self, window: sublime.Window, command_name: str, args: dict[str, Any] | None) -> None:
         if command_name == "show_panel":
             wm = windows.lookup(window)
